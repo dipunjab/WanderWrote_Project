@@ -1,9 +1,31 @@
 doctype html
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title WanderWorte
-        link(rel="stylesheet", href="/output.css")
-    body 
-      
+html
+  head
+    title WanderWorte
+    meta(charset='utf-8') 
+    link(rel='stylesheet', href='/output.css')
+    link(rel='stylesheet', href='/style.css')
+  body
+    nav(class="bg-gray-800 p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50")
+      .left.flex.items-center.space-x-4
+        span(class="text-white text-2xl classical-font") WanderWorte
+        ul.flex.space-x-4
+          li
+            a(class="text-white hover:text-gray-400" href="/home") Home
+          li
+            a(class="text-white hover:text-gray-400" href="/createpost") Create a Post
+      .right.flex.items-center.space-x-4
+        .profile-circle.relative
+          img(class="w-10 h-10 rounded-full" src="/images/logo.jpg" alt="User Picture")
+
+          .dropdown-menu.absolute.right-0.mt-2.w-48.bg-white.rounded-md.shadow-lg.hidden
+            a(class="block px-4 py-2 text-gray-800 hover:bg-gray-100" href="/profile") Profile
+            a(class="block px-4 py-2 text-gray-800 hover:bg-gray-100" href="/security") Security
+            a(class="block px-4 py-2 text-gray-800 hover:bg-gray-100" href="/logout") Logout
+
+    main(class="border-4 border-gray-600 p-4 m-20")
+      block content
+
+
+          
+    script(src="/togglemenu.js")

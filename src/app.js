@@ -26,5 +26,10 @@ app.use(cookieParser())
 app.get('/', (req, res) => {
     res.render('layout', { title: 'Home' }); // Render index.pug with data
 });
-
+app.get('/home', (req, res) => {
+    res.render('home', { title: 'Home' }); // Render index.pug with data
+});
+app.get('/createpost', (req, res) => {
+    res.render('createpost', { title: 'Home' }); // Render index.pug with data
+});
 export { app }

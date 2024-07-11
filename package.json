@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon src/index.js",
-    "dev": "nodemon src/index.js"
+    "build": "npx tailwindcss -i ./src/public/style.css -o ./src/public/output.css --watch"
   },
   "author": "usman ghani",
   "license": "ISC",
