@@ -32,4 +32,20 @@ app.get('/home', (req, res) => {
 app.get('/createpost', (req, res) => {
     res.render('createpost', { title: 'Home' }); // Render index.pug with data
 });
+app.get('/profile', (req, res) => {
+    res.render('profile', { title: 'Home' }); // Render index.pug with data
+});
+app.post('/profile', (req, res) => {
+    res.render('profile', { title: 'Home' }); // Render index.pug with data
+});
+
+app.get('/security', (req, res) => {
+    res.render('security', { title: 'Home' }); // Render index.pug with data
+});
+app.get('/signup', (req, res) => {
+    res.render('signup', { title: 'Home' }); // Render index.pug with data
+});
+app.get('/login', (req, res) => {
+    res.render('login', { title: 'Home' }); // Render index.pug with data
+});
 export { app }

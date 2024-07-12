@@ -3,6 +3,7 @@ html
   head
     title WanderWorte
     meta(charset='utf-8') 
+    link(rel="icon", href="/images/l.png", type="image/png")
     link(rel='stylesheet', href='/output.css')
     link(rel='stylesheet', href='/style.css')
   body
@@ -23,10 +24,11 @@ html
             a(class="block px-4 py-2 text-gray-800 hover:bg-gray-100" href="/security") Security
             a(class="block px-4 py-2 text-gray-800 hover:bg-gray-100" href="/logout") Logout
 
-    main(class="border-4 border-gray-600 p-4 m-20")
+    main
       block content
 
 
           
     script(src="/togglemenu.js")
     script(src="/uploadimg.js") 
+    script(src="/editprofile.js") 
