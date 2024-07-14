@@ -32,6 +32,9 @@ app.get('/home', (req, res) => {
 app.get('/createpost', (req, res) => {
     res.render('createpost', { title: 'Home' }); // Render index.pug with data
 });
+app.get('/userposts', (req, res) => {
+    res.render('userposts', { title: 'Home' }); // Render index.pug with data
+});
 app.get('/profile', (req, res) => {
     res.render('profile', { title: 'Home' }); // Render index.pug with data
 });

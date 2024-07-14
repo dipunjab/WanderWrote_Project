@@ -1,7 +1,8 @@
 extends layout.pug 
 
 block content 
-  div(class="container mx-auto p-6 my-24 w-1/2")
+  div(class="container mx-auto p-6 my-24 w-3/6")
+    h1(class="text-center text-slate-800 underline text-2xl ") "Explore Your Moments" 
     div(class="post border border-black rounded-lg p-2 mb-2")
       div(class="flex justify-between items-center mb-2")
         div(class="flex items-center")
@@ -15,11 +16,15 @@ block content
            img(src="/images/unnamed.jpg" alt="Post Picture" class="w-64 h-64")
       div(class="flex justify-between items-center")
         div(class="flex items-center")
-          a(href=`/like/${postId}`, class="flex items-center cursor-pointer")       
-            img(src="/images/like.png", alt="like" class="w-12 h-12")
+          a(href=`/like/${postId}`, class="flex items-center cursor-pointer")
+            img(src="/images/like.png", alt="like" class="w-12 h-12 cursor-pointer")
           div(class="text-red-500") 23
         div(class="flex items-center")
-          img(src="/images/comment.png", alt="comment" class="w-12 h-12" id="commentbtn")
+            a(href=`/delete-post/${postId}`, class="flex items-center cursor-pointer")
+                img(src="/images/delte.png", alt="like" class="w-12 h-12 cursor-pointer")
+            div(class="text-blue-500") Delete Post
+        div(class="flex items-center")
+          img(src="/images/comment.png", alt="comment" class="w-12 h-12 cursor-pointer" id="commentbtn")
           div(class="text-orange-900") 12
       div(class="mt-4 border-t border-gray-300 pt-4 hidden" id="commentform")
         form(action=`/add-comment/${postId}` method="POST" class="flex items-center" id="commentForm")
