@@ -23,32 +23,8 @@ app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser())
 
-app.get('/', (req, res) => {
-    res.render('layout', { title: 'Home' }); // Render index.pug with data
-});
-app.get('/home', (req, res) => {
-    res.render('home', { title: 'Home' }); // Render index.pug with data
-});
-app.get('/createpost', (req, res) => {
-    res.render('createpost', { title: 'Home' }); // Render index.pug with data
-});
-app.get('/userposts', (req, res) => {
-    res.render('userposts', { title: 'Home' }); // Render index.pug with data
-});
-app.get('/profile', (req, res) => {
-    res.render('profile', { title: 'Home' }); // Render index.pug with data
-});
-app.post('/profile', (req, res) => {
-    res.render('profile', { title: 'Home' }); // Render index.pug with data
-});
+import userRouter from "./routes/user.routes.js"
 
-app.get('/security', (req, res) => {
-    res.render('security', { title: 'Home' }); // Render index.pug with data
-});
-app.get('/signup', (req, res) => {
-    res.render('signup', { title: 'Home' }); // Render index.pug with data
-});
-app.get('/login', (req, res) => {
-    res.render('login', { title: 'Home' }); // Render index.pug with data
-});
+app.use("/wander/v1/users", userRouter)
+
 export { app }
