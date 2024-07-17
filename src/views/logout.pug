@@ -2,6 +2,39 @@ doctype html
 html
   head
     title WanderWorte
+    meta(charset='utf-8') 
+    link(rel="icon", href="/images/l.png", type="image/png")
+    link(rel='stylesheet', href='/output.css')
+    link(rel='stylesheet', href='/style.css')
   body 
-    h1 logout Successfull  
-    a(href="/wander/v1/users/login") Login
+    h1(class="text-center text-3xl underline") are you sure you want to logout?
+    a(href="/wander/v1/users/login") 
+      button#logout(class="bg-orange-500") YES 
+
+    script.
+        const logoutBtn = document.getElementById("logout");
+
+        logoutBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        try {
+          const response = await fetch("/wander/v1/users/logout", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          const result = await response.json();
+          console.log('Logout response:', result);
+
+          // Redirect or handle UI changes after successful logout
+          window.location.href = 'http://localhost:3000/wander/v1/users/login'; // Redirect to home or login page
+        } catch (error) {
+          console.error('There has been a problem with your fetch operation:', error);
+        }
+        });

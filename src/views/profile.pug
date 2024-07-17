@@ -3,34 +3,100 @@ extends layout.pug
 block content
   .info-box
     h3.title.text-center.mb-4.underline.font-bold Personal details
-    img.profile-pic(src="/images/logo.jpg" class="w-24 h-24 rounded-full mx-auto")
+    img.profile-pic(src=user.profilePicture class="w-24 h-24 rounded-full mx-auto")
     div(class="py-4 text-center")
       dt.label Country
-      dd#country Pakistan
+      dd#country #{user.country}
     div.border-t.mt-4
       dl.divide-y
         div(class="py-4")
           dt.label Username
-          dd#username Margotfoster123      
+          dd#usernameInput #{user.username}      
         div(class="py-4")
           dt.label Full name
-          dd#fullname Margot Foster
+          dd#fullnameInput #{user.fullname}
         div(class="py-4")
           dt.label Email address
-          dd#email margotfoster@example.com
+          dd#emailInput #{user.email}
         div(class="py-4")
           dt.label About
-          dd#about Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
+          dd#aboutInput #{user.about}
     button.edit-button.mt-4#editButton Edit Profile
-
   div#editFormPopup.hidden.fixed.inset-0.bg-gray-800.bg-opacity-50.flex.justify-center.items-center.z-50
-    form#editForm(action="/profile" method="POST" class="bg-white p-6 rounded-lg shadow-lg" style="max-width: 800px;")
+    form#editForm(action="/wander/v1/users/profile" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-lg" style="max-width: 800px;")
       label.block.mt-4.mb-2(for="profilePicture") Profile Picture
-      input#profilePicture(type="file" class="px-3 py-2 border rounded-md")
-      label.block.mb-2(for="usernameInput") Username
-      input#usernameInput(type="text" class="block w-full px-3 py-2 border rounded-md" value="Margotfoster123")
-      label.block.mt-4.mb-2(for="fullnameInput") Full name
-      input#fullnameInput(type="text" class="block w-full px-3 py-2 border rounded-md" value="Margot Foster")
-      label.block.mt-4.mb-2(for="aboutInput") About
-      textarea#aboutInput.block.w-full.px-3.py-2.border.rounded-md Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
+      input#profilePicture(name="profilePicture" type="file" class="px-3 py-2 border rounded-md")
+      label.block.mb-2(for="username") Username
+      input#username(name="username" type="text" class="block w-full px-3 py-2 border rounded-md" value=user.username)
+      label.block.mt-4.mb-2(for="fullname") Full name
+      input#fullname(name="fullname" type="text" class="block w-full px-3 py-2 border rounded-md" value=user.fullname)
+      label.block.mt-4.mb-2(for="about") About
+      textarea#about(name="about" class="block w-full px-3 py-2 border rounded-md") #{user.about}
       button#saveChanges(type="submit" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md") Save Changes
+  
+  script.
+      const popup = document.getElementById("editFormPopup");
+      const editButton = document.getElementById("editButton");
+      const saveButton = document.getElementById("saveChanges");
+
+          editButton.addEventListener("click", () => {
+            popup.style.display = "flex";
+          });
+
+          document.addEventListener("click", (e) => {
+            if (e.target === popup) {
+              popup.style.display = "none";
+            }
+          });
+
+          saveButton.addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            const editForm = document.getElementById("editForm");
+
+            try {
+              const formData = new FormData(editForm);
+              const response = await fetch(editForm.action, {
+                method: "POST",
+                body: formData,
+              });
+
+              if (response.ok) {
+                const result = await response.json();
+                console.log("API Response:", result); // Check the response structure
+
+                if (result.success) {
+                  // Update the profile data on the frontend if elements exist
+                  const usernameElement = document.getElementById("username");
+                  if (usernameElement) usernameElement.textContent = result.username;
+
+                  const fullnameElement = document.getElementById("fullname");
+                  if (fullnameElement) fullnameElement.textContent = result.fullname;
+
+                  const aboutElement = document.getElementById("about");
+                  if (aboutElement) aboutElement.textContent = result.about;
+
+
+                  // Optionally update the profile picture
+                  const profilePic = document.querySelector(".profile-pic");
+                  if (profilePic) profilePic.src = result.data.profilePicture;
+                  
+                  console.log(profilePic);
+                  
+                  // Hide the popup form
+                  popup.style.display = "none";
+                  alert("Changes Saved!⚡");
+
+                  window.location.href = "/wander/v1/users/profile";
+                } else {
+                  console.error("Failed to update profile:", result.message);
+                  alert("Failed to update profile: " + (result.message || "Unknown error"));
+                }
+              } else {
+                console.error("Failed to update profile");
+              }
+            } catch (error) {
+              console.error("Error:", error);
+              alert("An error occurred while updating the profile!");
+            }
+          });

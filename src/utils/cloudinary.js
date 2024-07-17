@@ -36,5 +36,14 @@ import { ApiError } from './ApiError.js';
         }
     };
 
-
-export {uploadonCloudinary}
+    const deleteFromCloudinary = async (publicId) => {
+        try {
+            const response = await cloudinary.uploader.destroy(publicId);
+            console.log("File is deleted from Cloudinary", response.result);
+            return response;
+        } catch (error) {
+            console.log("File not deleted", error);
+            return null;
+        }
+    };
+export {uploadonCloudinary,deleteFromCloudinary}
