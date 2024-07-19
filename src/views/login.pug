@@ -55,7 +55,7 @@ html
 
           const result = await response.json();
           //- console.log('Response data:', result); 
-
+          if(result.error === "Password incorrect"){}
           const accessToken = result.data.accessToken; 
           //- console.log('AccessToken:', accessToken); 
 
@@ -66,6 +66,7 @@ html
           }
 
         } catch (error) {
+            alert("incorrect Email/Username Or Password")  
           console.error('There has been a problem with your fetch operation:', error);
         }
       });

@@ -15,8 +15,21 @@ block content
           button(type="button" id="saveChanges" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline mx-4 mt-7") Save Changes
           button(type="button" id="deleteAccount" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline mx-4 mt-7") Delete Account
 
+        // Confirmation Popup
+  div(id="confirmationPopup" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center hidden")
+    div(class="bg-white p-6 rounded-lg shadow-lg")
+      h2(class="text-lg font-bold mb-4") Are you sure you want to delete your account?
+      p(class="mb-4") This action cannot be undone.
+      div(class="flex justify-end")
+        button(type="button" id="confirmDelete" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2") Yes, Delete
+        button(type="button" id="cancelDelete" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded") Cancel
+
   script.
     const saveChangesButton = document.getElementById('saveChanges');
+    const deleteAccountButton = document.getElementById('deleteAccount')
+    const confirmationPopup = document.getElementById('confirmationPopup');
+    const confirmDeleteButton = document.getElementById('confirmDelete');
+    const cancelDeleteButton = document.getElementById('cancelDelete');
 
     saveChangesButton.addEventListener('click', async function(event) {
       event.preventDefault();
@@ -47,5 +60,37 @@ block content
       } catch (error) {
         oldPasswordError.classList.remove('hidden');  // Show the error message
         console.error('Error:', error);
+      }
+    });
+
+    deleteAccountButton.addEventListener('click', () => {
+        confirmationPopup.classList.remove('hidden');  // Show the confirmation popup
+    });
+
+    cancelDeleteButton.addEventListener('click', () => {
+        confirmationPopup.classList.add('hidden');  // Hide the confirmation popup
+    });
+
+    confirmDeleteButton.addEventListener('click', async () => {
+        try{
+
+        const response = await fetch('/wander/v1/users/security', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          console.log(result.message)
+        } else {
+            console.log(result.message);
+        }
+      }catch(err){
+        alert(err)
+      }finally{
+        alert("Account has been deleted")
+        window.location.href = "http://localhost:3000/wander/v1/users/login"
       }
     });

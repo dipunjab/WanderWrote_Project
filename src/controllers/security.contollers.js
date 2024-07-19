@@ -25,7 +25,29 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200,{},"Password Changed successfully"))
 });
 
+const deleteUserProfile = asyncHandler(async (req, res) => {
+    const userId = req.user?._id;
+
+    if (!userId) {
+        throw new ApiError(401, "User not authenticated");
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    await User.findByIdAndDelete(userId);
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, {}, "User profile deleted successfully"));
+});
+
+
 export {
     getSecurity,
-    changeCurrentPassword
+    changeCurrentPassword,
+    deleteUserProfile
 }
