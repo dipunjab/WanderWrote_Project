@@ -4,10 +4,48 @@ block content
   div(class="flex justify-center items-center h-screen")
     div(class="bg-gray-200 rounded-lg p-8 h-96")
       h1(class="text-black text-center underline text-3xl font-bold") Security🔐
-      form(action="#" method="POST")
+      form(id="passwordForm" action="#" method="POST")
         div(class="mb-4 mt-4")
-          label(class="block text-gray-700 text-sm font-bold mb-2") New Password
-          input(type="text" name="newPassword" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline")
+          label(for="oldPassword" class="block text-gray-700 text-sm font-bold mb-2") Old Password
+          input(type="password" id="oldPassword" name="oldPassword" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline")
+          p(id="oldPasswordError" class="text-red-500 text-xs italic hidden") Old password is incorrect.
+          label(for="newPassword" class="block text-gray-700 text-sm font-bold mb-2") New Password
+          input(type="password" id="newPassword" name="newPassword" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline")
         div(class="flex items-center justify-between")
-          button(type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline mx-4 mt-7") Save Changes
-          button(type="button"  id="deleteaccount" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline mx-4 mt-7") Delete Account
+          button(type="button" id="saveChanges" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline mx-4 mt-7") Save Changes
+          button(type="button" id="deleteAccount" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline mx-4 mt-7") Delete Account
+
+  script.
+    const saveChangesButton = document.getElementById('saveChanges');
+
+    saveChangesButton.addEventListener('click', async function(event) {
+      event.preventDefault();
+      const oldPasswordError = document.getElementById('oldPasswordError');
+      oldPasswordError.classList.add('hidden');  // Hide the error message by default
+
+      const oldPassword = document.getElementById('oldPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+
+      try {
+        const response = await fetch('/wander/v1/users/security', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ oldPassword, newPassword })
+        });
+
+        if (response.ok) {
+          alert('Password changed successfully!');
+        } else {
+          const result = await response.json();
+          if (result.error === 'Invalid old password') {
+          } else {
+            alert('Error changing password');
+          }
+        }
+      } catch (error) {
+        oldPasswordError.classList.remove('hidden');  // Show the error message
+        console.error('Error:', error);
+      }
+    });

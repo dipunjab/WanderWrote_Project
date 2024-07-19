@@ -6,13 +6,38 @@ html
     link(rel="icon", href="/images/l.png", type="image/png")
     link(rel='stylesheet', href='/output.css')
     link(rel='stylesheet', href='/style.css')
-  body 
-    h1(class="text-center text-3xl underline") are you sure you want to logout?
-    a(href="/wander/v1/users/login") 
-      button#logout(class="bg-orange-500") YES 
+  body
+    div(class="flex justify-center items-center min-h-screen bg-gray-100")
+        div(class="w-full max-w-md mx-auto p-6 border-2 border-blue-900 rounded-lg bg-white shadow-md")
+          h1(class="text-center text-2xl underline uppercase font-bold text-blue-700") Are you sure you want to logout?
+          p#emoji(class="text-center  text-2xl") 😕
+          div(class="flex justify-center mt-8")
+            a(href="/wander/v1/users/login") 
+              button#logout(class="bg-blue-500 hover:bg-blue-700 text-white text-2xl py-3 px-12 rounded-lg mx-2") YES
+            a(href="/wander/v1/home") 
+              button#nologout(class="bg-blue-500 hover:bg-blue-700 text-white text-2xl py-3 px-12 rounded-lg mx-2") NO
 
     script.
         const logoutBtn = document.getElementById("logout");
+        const nologoutbtn = document.getElementById("nologout");
+
+        const emoji = document.getElementById('emoji');
+
+        nologout.addEventListener('mouseover', function() {
+          emoji.textContent = '🥰';
+        });
+        nologout.addEventListener('mouseout', function() {
+          emoji.textContent = '😕';
+        });
+
+        logoutBtn.addEventListener('mouseover', function() {
+          emoji.textContent = '😞';
+        });
+
+        logoutBtn.addEventListener('mouseout', function() {
+          emoji.textContent = '😕';
+        });
+
 
         logoutBtn.addEventListener("click", async (event) => {
         event.preventDefault();
