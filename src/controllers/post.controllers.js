@@ -1,6 +1,6 @@
 import { isValidObjectId } from "mongoose";
 import { Post } from "../models/post.models.js";
-import { User } from "../models/user.models.js"
+import { Like } from "../models/like.models.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from '../utils/ApiResponse.js';
@@ -42,6 +42,15 @@ const createAPost = asyncHandler(async(req,res)=>{
 
 const getuserposts = asyncHandler(async(req,res)=>{
     const posts = await Post.find({ owner: req.user._id }).sort({ createdAt: -1 });
+
+    const userId = req.user ? req.user._id : null;
+
+    for (const post of posts) {
+        const totalLikes = await Like.countDocuments({ post: post._id });
+        const likedByUser = userId ? await Like.exists({ post: post._id, likedBy: userId }) : false;
+        post.totalLikes = totalLikes;
+        post.likedByUser = !!likedByUser;
+    }
     return res.status(200).render("userposts", { user: req.user, posts });
 });
 

@@ -1,25 +1,32 @@
-import { asyncHandler } from "../utils/asyncHandler.js"
-import {Post} from "../models/post.models.js"
-import { ApiError } from "../utils/ApiError.js";
-import {ApiResponse} from "../utils/ApiResponse.js"
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { Post } from "../models/post.models.js";
+import { Like } from "../models/like.models.js";
 
 
- const getAllposts = asyncHandler(async (req, res) => {
-   const { page = 1, limit = 10, postsFile} = req.query
+const getAllposts = asyncHandler(async (req, res) => {
+    const { page = 1, limit = 10, postsFile } = req.query;
+    const userId = req.user ? req.user._id : null;
 
-   let postsfilter = {};
-   if (postsFile) {
-      postsfilter = { postsFile: postsFile };
-   }
+    let postsFilter = {};
+    if (postsFile) {
+        postsFilter = { postsFile: postsFile };
+    }
 
-   const posts = await 
-                 Post.find(postsfilter)
-                 .populate("owner", "fullname country profilePicture")
-                 .limit(limit)
-                 .skip((page -1)*limit)
-                 .sort({createdAt: -1}) 
-        return res.status(200).render("home", {user: req.user , posts})
+    const posts = await Post.find(postsFilter)
+        .populate("owner", "fullname country profilePicture")
+        .limit(limit)
+        .skip((page - 1) * limit)
+        .sort({ createdAt: -1 })
+        .lean();
+
+    for (const post of posts) {
+        const totalLikes = await Like.countDocuments({ post: post._id });
+        const likedByUser = userId ? await Like.exists({ post: post._id, likedBy: userId }) : false;
+        post.totalLikes = totalLikes;
+        post.likedByUser = !!likedByUser;
+    }
+
+    return res.status(200).render("home", { user: req.user, posts });
 });
- export {
-    getAllposts
- }
+
+export { getAllposts };

@@ -13,19 +13,20 @@ block content
                   div(class="font-bold") #{post.owner.fullname || 'Unknown User'}
                   div(class="text-sm text-gray-600") #{post.owner.country || 'Unknown Country'}
 
-              - const formattedDate = new Date(post.createdAt).toLocaleDateString(undefined, {year: 'numeric', month: 'short', day: 'numeric',hour: '2-digit',minute: '2-digit',second: '2-digit'})
+              - const formattedDate = new Date(post.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' })
 
               div(class="text-gray-600 text-sm") #{formattedDate}
             div(class="mb-4") #{post.content}
-            
+
             div(class="border-2 border-gray-200 rounded-2xl p-2 mb-4 flex justify-center items-center")
               img(src=post.picture || "/images/default-post.jpg" alt="Post Picture" class="w-max h-64")
-              
+
             div(class="flex justify-between items-center")
               div(class="flex items-center")
-                a(href=`/like/${post._id}`, class="flex items-center cursor-pointer")
-                  img(src="/images/like.png" alt="like" class="w-12 h-12")
-                div(class="text-red-500") #{post.likesCount || 0}
+                // Add an ID to the like button and a data attribute for the post ID
+                a(href="javascript:void(0)" class="flex items-center cursor-pointer like-btn" data-post-id=post._id)
+                  img(src=post.likedByUser ? "/images/liked.png" : "/images/like.png" alt="like" class="w-12 h-12")
+                div(class="text-red-500 like-count") #{post.totalLikes || 0}
               div(class="flex items-center")
                 img(src="/images/comment.png" alt="comment" class="w-12 h-12" id="commentbtn")
                 div(class="text-orange-900") #{post.commentsCount || 0}
@@ -34,3 +35,35 @@ block content
               form(action=`/add-comment/${post._id}` method="POST" class="flex items-center" id="commentForm")
                 input(type="text" name="comment" placeholder="Add a comment..." class="flex-grow border border-gray-300 rounded-md p-2 mr-4")
                 button(type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded") Post
+
+  script.
+      document.querySelectorAll('.like-btn').forEach(button => {
+        button.addEventListener('click', async (e) => {
+          e.preventDefault();
+          const postId = button.getAttribute('data-post-id');
+
+          try {
+            const response = await fetch(`/wander/v1/like/${postId}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              },
+              credentials: 'include'
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              const likeImg = button.querySelector('img');
+              const likeCount = button.nextElementSibling;
+              likeImg.src = data.data.islikeby ? "/images/liked.png" : "/images/like.png";
+              likeCount.textContent = data.data.totalLikes;
+            } else {
+              console.error(data.message);
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        });
+      });
