@@ -27,10 +27,12 @@ import userRouter from "./routes/user.routes.js"
 import homeRouter from "./routes/home.routes.js"
 import profileRouter from "./routes/profile.routes.js"
 import securityRoouter from "./routes/security.routes.js"
+import postRouter  from "./routes/post.routes.js"
 
 app.use("/wander/v1/users", userRouter)
 app.use("/wander/v1/home", homeRouter)
 app.use("/wander/v1/users", profileRouter)
 app.use("/wander/v1/users", securityRoouter)
+app.use("/wander/v1/users", postRouter)
 
 export { app }
