@@ -17,7 +17,7 @@ block content
                   div(class="text-gray-600 text-sm") #{formattedDate}
                 div(class="mb-4") #{post.content}
                 div(class="border-2 border-gray-200 rounded-2xl p-2 mb-4 flex justify-center items-center")
-                    img(src=post.picture alt="Post Picture" class="w-64 h-64")
+                    img(src=post.picture alt="Post Picture" class="w-max h-64")
                 div(class="flex justify-between items-center")
                   div(class="flex items-center")
                     a(href=`/like/${postId}`, class="flex items-center cursor-pointer")
