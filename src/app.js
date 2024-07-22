@@ -29,6 +29,7 @@ import profileRouter from "./routes/profile.routes.js"
 import securityRoouter from "./routes/security.routes.js"
 import postRouter  from "./routes/post.routes.js"
 import likeRouter from "./routes/like.routes.js"
+import commentRouter from "./routes/comment.routes.js"
 
 app.use("/wander/v1/users", userRouter)
 app.use("/wander/v1/home", homeRouter)
@@ -36,5 +37,6 @@ app.use("/wander/v1/users", profileRouter)
 app.use("/wander/v1/users", securityRoouter)
 app.use("/wander/v1/users", postRouter)
 app.use("/wander/v1/like", likeRouter)
+app.use("/wander/v1/comment", commentRouter)
 
 export { app }

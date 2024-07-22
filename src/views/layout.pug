@@ -31,5 +31,20 @@ html
 
 
           
-    script(src="/togglemenu.js")
     script(src="/uploadimg.js") 
+    script. 
+          document.addEventListener('DOMContentLoaded', () => {
+          const profileCircle = document.querySelector('.profile-circle');
+          const dropdownMenu = profileCircle.querySelector('.dropdown-menu');
+
+          profileCircle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('hidden');
+          });
+
+          document.addEventListener('click', (e) => {
+            if (!profileCircle.contains(e.target)) {
+              dropdownMenu.classList.add('hidden');
+            }
+          });
+        });

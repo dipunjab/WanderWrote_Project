@@ -23,42 +23,109 @@ block content
 
             div(class="flex justify-between items-center")
               div(class="flex items-center")
-                // Add an ID to the like button and a data attribute for the post ID
                 a(href="javascript:void(0)" class="flex items-center cursor-pointer like-btn" data-post-id=post._id)
                   img(src=post.likedByUser ? "/images/liked.png" : "/images/like.png" alt="like" class="w-12 h-12")
                 div(class="text-red-500 like-count") #{post.totalLikes || 0}
               div(class="flex items-center")
-                img(src="/images/comment.png" alt="comment" class="w-12 h-12" id="commentbtn")
-                div(class="text-orange-900") #{post.commentsCount || 0}
+                p(class="text-black mx-5 cursor-pointer viewAllComments" data-post-id=post._id) view all
+                img(src="/images/comment.png" alt="comment" class="w-12 h-12 commentbtn")
+                div(class="text-orange-900") #{post.totalcomments || 0}
 
-            div(class="mt-4 border-t border-gray-300 pt-4 hidden" id="commentform")
-              form(action=`/add-comment/${post._id}` method="POST" class="flex items-center" id="commentForm")
-                input(type="text" name="comment" placeholder="Add a comment..." class="flex-grow border border-gray-300 rounded-md p-2 mr-4")
+            div(class="mt-4 border-t border-gray-300 pt-4 hidden commentdiv")
+              form(method="POST" class="flex items-center commentform" data-post-id=post._id)
+                input(type="text" name="comment" placeholder="Add a comment..." class="commentContent flex-grow border border-gray-300 rounded-md p-2 mr-4")
                 button(type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded") Post
 
+            //view all comments
+            div(class="mt-4 border-t border-gray-300 pt-4 text-center hidden viewCommentdiv")
+
   script.
-      document.querySelectorAll('.like-btn').forEach(button => {
-        button.addEventListener('click', async (e) => {
+        //handling like
+        document.querySelectorAll('.like-btn').forEach(button => {
+          button.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const postId = button.getAttribute('data-post-id');
+
+            try {
+              const response = await fetch(`/wander/v1/like/${postId}`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                },
+                credentials: 'include'
+              });
+
+              const data = await response.json();
+
+              if (response.ok) {
+                const likeImg = button.querySelector('img');
+                const likeCount = button.nextElementSibling;
+                likeImg.src = data.data.islikeby ? "/images/liked.png" : "/images/like.png";
+                likeCount.textContent = data.data.totalLikes;
+              } else {
+                console.error(data.message);
+              }
+            } catch (error) {
+              console.error('Error:', error);
+            }
+          });
+        });
+
+        //to hide and show comment div
+        document.querySelectorAll('.commentbtn').forEach(button => {
+          button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const commentDiv = button.closest('.post').querySelector('.commentdiv');
+            if (commentDiv) {
+              commentDiv.classList.toggle('hidden');
+            } else {
+              console.error('Comment div not found');
+            }
+          });
+        });
+        document.addEventListener('click', (e) => {
+          document.querySelectorAll('.commentdiv').forEach(commentDiv => {
+            if (!commentDiv.classList.contains('hidden') && !commentDiv.contains(e.target) && !e.target.closest('.commentbtn')) {
+              commentDiv.classList.add('hidden');
+            }
+          });
+          document.querySelectorAll('.viewCommentdiv').forEach(commentDiv => {
+            if (!commentDiv.classList.contains('hidden') && !commentDiv.contains(e.target) && !e.target.closest('.commentbtn')) {
+              commentDiv.classList.add('hidden');
+            }
+          });
+        });
+
+        //handling comment post
+        document.querySelectorAll('.commentform').forEach(form => {
+        form.addEventListener('submit', async (e) => {
           e.preventDefault();
-          const postId = button.getAttribute('data-post-id');
+          const postId = form.getAttribute('data-post-id');
+          const content = form.querySelector('.commentContent').value;
 
           try {
-            const response = await fetch(`/wander/v1/like/${postId}`, {
+            const response = await fetch(`/wander/v1/comment/${postId}`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
               },
-              credentials: 'include'
+              credentials: 'include',
+              body: JSON.stringify({ content })
             });
 
             const data = await response.json();
 
             if (response.ok) {
-              const likeImg = button.querySelector('img');
-              const likeCount = button.nextElementSibling;
-              likeImg.src = data.data.islikeby ? "/images/liked.png" : "/images/like.png";
-              likeCount.textContent = data.data.totalLikes;
+              form.querySelector('.commentContent').value = '';
+              alert("Comment Added");
+              const commentCount = form.closest('.post').querySelector('.text-orange-900');
+              if (commentCount) {
+                commentCount.textContent = parseInt(commentCount.textContent) + 1;
+              } else {
+                console.error('Comment count element not found');
+              }
             } else {
               console.error(data.message);
             }
@@ -66,4 +133,69 @@ block content
             console.error('Error:', error);
           }
         });
-      });
+        });
+
+        //view comments for the post
+        document.querySelectorAll('.viewAllComments').forEach(button => {
+          button.addEventListener('click', async (e) => {
+
+            const postId = button.getAttribute('data-post-id');
+            const viewCommentDiv = button.closest('.post').querySelector('.viewCommentdiv');
+
+            if (viewCommentDiv) {
+              try {
+                const response = await fetch(`/wander/v1/comment/${postId}`, {
+                  method: 'GET',
+                  headers: {
+                    'Accept': 'application/json',
+                  },
+                  credentials: 'include'
+                });
+
+                const result = await response.json();
+                console.log(result) 
+
+                if (response.ok) {
+                  //here my day was spent so the problem was it was showing error i was accessing data.comments instead data was also in result finally with the help of console.log solved it 12:41am 7/23/2024
+                  const comments = result.data.comments;
+                  console.log(comments) 
+
+                  viewCommentDiv.innerHTML = '<h3 class="text-sm text-black font-bold underline">Comments</h3>';
+
+                  comments.forEach(comment => {
+                    const formattedDate = new Date(comment.createdAt).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                      }) + ', ' + new Date(comment.createdAt).toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      });
+                    const commentElement = document.createElement('div');
+                    commentElement.className = 'comment mb-2';
+                    commentElement.innerHTML = `
+                      <div class="flex items-start">
+                        <img src="${comment.owner.profilePicture}" alt="Profile Picture" class="w-8 h-8 rounded-full border-2 border-black mr-2">
+                        <div>
+                          <div class="font-bold">${comment.owner.username || 'Unknown User'}</div>
+                          <p class="text-sm bg-slate-300 border-2 rounded-sm text-center">${comment.content}</p>
+                          <div class="text-sm text-gray-600">${formattedDate} </div>
+                        </div>
+                      </div>
+                    `;
+                    viewCommentDiv.appendChild(commentElement);
+                  });
+
+                  viewCommentDiv.classList.remove('hidden');
+                } else {
+                  console.error(data.message);
+                }
+              } catch (error) {
+                console.error('Error:', error);
+              }
+            } else {
+              console.error('View comment div not found');
+            }
+          });
+        });
+

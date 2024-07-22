@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Post } from "../models/post.models.js";
 import { Like } from "../models/like.models.js";
-
+import { Comment } from "../models/comment.models.js";
 
 const getAllposts = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, postsFile } = req.query;
@@ -24,6 +24,11 @@ const getAllposts = asyncHandler(async (req, res) => {
         const likedByUser = userId ? await Like.exists({ post: post._id, likedBy: userId }) : false;
         post.totalLikes = totalLikes;
         post.likedByUser = !!likedByUser;
+
+        const totalcomments = await Comment.countDocuments({ post: post._id });
+        const commentByUser = userId ? await Comment.exists({ post: post._id, commentby: userId }) : false;
+        post.totalcomments = totalcomments;
+        post.commentByUser = !!commentByUser;
     }
 
     return res.status(200).render("home", { user: req.user, posts });
