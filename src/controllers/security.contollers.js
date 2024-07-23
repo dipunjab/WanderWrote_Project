@@ -2,6 +2,9 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 import { User } from "../models/user.models.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
+import {Post} from "../models/post.models.js"
+import { Like } from "../models/like.models.js"
+import { Comment } from "../models/comment.models.js"
 
 const getSecurity = asyncHandler(async(req,res)=>{
     return res.status(200).render("security", {user:req.user})
@@ -27,6 +30,14 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 
 const deleteUserProfile = asyncHandler(async (req, res) => {
     const userId = req.user?._id;
+    const posts = await Post.find({ owner: userId });
+
+    // Delete all comments and likes for the posts
+    await Promise.all([
+      Comment.deleteMany({ owner: userId }),
+      Like.deleteMany({ owner: userId }),
+      Post.deleteMany({ owner: userId }),
+    ]);
 
     if (!userId) {
         throw new ApiError(401, "User not authenticated");

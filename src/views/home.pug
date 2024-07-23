@@ -8,10 +8,10 @@ block content
           div(class="post border border-black rounded-lg p-2 mb-2")
             div(class="flex justify-between items-center mb-2")
               div(class="flex items-center")
-                img(src=post.owner.profilePicture || "/images/default-profile.jpg" alt="Profile Picture" class="w-12 h-12 rounded-full border-2 border-black mr-4")
+                img(src=(post.owner && post.owner.profilePicture) || "/images/default-profile.jpg" alt="Profile Picture" class="w-12 h-12 rounded-full border-2 border-black mr-4")
                 div
-                  div(class="font-bold") #{post.owner.fullname || 'Unknown User'}
-                  div(class="text-sm text-gray-600") #{post.owner.country || 'Unknown Country'}
+                  div(class="font-bold") #{(post.owner && post.owner.fullname) || 'Unknown User'}
+                  div(class="text-sm text-gray-600") #{(post.owner && post.owner.country) || 'Unknown Country'}
 
               - const formattedDate = new Date(post.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' })
 
@@ -35,9 +35,10 @@ block content
               form(method="POST" class="flex items-center commentform" data-post-id=post._id)
                 input(type="text" name="comment" placeholder="Add a comment..." class="commentContent flex-grow border border-gray-300 rounded-md p-2 mr-4")
                 button(type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded") Post
-
-            //view all comments
             div(class="mt-4 border-t border-gray-300 pt-4 text-center hidden viewCommentdiv")
+  else 
+      p no posts yet
+            //view all comments
 
   script.
         //handling like

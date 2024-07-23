@@ -35,16 +35,20 @@ const registerUser = asyncHandler(async(req,res)=>{
     if (
         [fullname, email, username, password].some((field) => field?.trim() === "")
     ) {
-        throw new ApiError(400, `All fields are compulsory`)
+        return res.status(404).json({message:`All fields are compulsory`})
     }
-
+    if (password.length < 8 ) {
+        return res.status(404).json({message:`Password should contain min 8 characters`})
+    }    
     //check for user if exists
     const existedUser = await User.findOne({
         $or: [{ username }, { email }]
     })
 
     if (existedUser) {
-        throw new ApiError(409, `User with email or username already exists.`)
+
+        return res.status(404).json({message:`User with email or username already exists`})
+        // throw new ApiError(409, `User with email or username already exists.`)
     };    
 
     const profilePictureLocalPath = req.files.profilePicture[0]?.path

@@ -34,9 +34,8 @@ html
                     input(type="file", id="photo", name="profilePicture" class="hidden", accept="image/*")
                     label(for="photo", class="rounded-md bg-teal-400 px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer") Upload Picture
 
-            div(class="border-b border-gray-900/10 pb-12")
-                h2(class="text-base font-semibold leading-7 text-gray-900") Personal Information
-                p(class="mt-1 text-sm leading-6 text-gray-600") Use a permanent address where you can receive mail.
+            div(class="mt-10 border-b border-gray-900/10 pb-12")
+                h2(class="font-semibold leading-7 text-gray-900 underline text-2xl") Personal Information
                 
                 div(class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6")
                     div(class="sm:col-span-3")
@@ -53,7 +52,7 @@ html
                         label(for="password", class="block text-lg font-medium leading-6 text-gray-900") Create Password
                         div(class="mt-2")
                           input#password(name="password", type="text", autocomplete="email", class="block w-full rounded-md border-1 py-1.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6")
-                          p#passworddes
+                          p#passwordError(class="bg-green-500 text-green-800 text-sm font-semibold hidden") Password should contain min 8 characters
                            
                     div(class="sm:col-span-3")
                         label(for="country", class="block text-sm font-medium leading-6 text-gray-900") Country
@@ -94,13 +93,14 @@ html
 
                 loadingOverlay.classList.remove("hidden");
 
-                const username = document.getElementById('username').value;
-                const email = document.getElementById('email').value;
+                let username = document.getElementById('username').value;
+                let email = document.getElementById('email').value;
                 const fullname = document.getElementById('full-name').value;
                 const about = document.getElementById('about').value;
-                const password = document.getElementById('password').value;
+                let password = document.getElementById('password').value;
                 const country = document.getElementById('country').value;
                 const profilePicture = document.getElementById('photo').files[0];
+
 
                 const formData = new FormData();
                 formData.append('username', username);
@@ -117,12 +117,24 @@ html
                         body: formData
                     });
 
+                    const data = await response.json();
+                    
                     if (response.ok) {
                         alert("Registration successful✨")
                         window.location.href = "http://localhost:3000/wander/v1/users/login";
                     }
 
-                    const data = await response.json();
+
+
+                    if(data.message.includes("All fields are compulsory")) return alert("All fields are compulsory") 
+
+                    if(data.message.includes("User with email or username already exists")) return alert("User with email or username already exists") 
+
+                    if(data.message.includes("Password should contain min 8 characters")){
+                        document.getElementById("passwordError").style.display = "flex"
+                        return
+                    } 
+
                     console.log('Registration successful:', data);
 
 
@@ -133,7 +145,7 @@ html
                 }
             });
 
-            document.getElementById('photo').addEventListener('change', function(event) {
+        document.getElementById('photo').addEventListener('change', function(event) {
                 const file = event.target.files[0];
                 if (file) {
                     const reader = new FileReader();
