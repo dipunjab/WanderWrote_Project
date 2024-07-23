@@ -17,12 +17,12 @@ Wonerworte is a web application that allows users to log in and share their word
 - JWT (JSON Web Tokens) for authentication
 - Mongoose (MongoDB ODM)
 
-### Other Services
+## Other Services
 - Cloudinary (for profile picture uploads)
 - Multer (for handling file uploads)
 
 ## Getting Started
-  ##Prerequisites
+  ### Prerequisites
    + Ensure you have the following installed on your machine:
     
 - Node.js
@@ -34,12 +34,12 @@ Clone the repository:
 ### cd wonerworte
 
 ## Install dependencies:
--### npm install
+  ### npm install
 
 - Set up environment variables:
     Create a .env file in the root directory and add the following variables:
 
-.env
++ .env
 
 ### PORT=3000
 ### MONGODB_URL=your_mongodb_connection_string
@@ -55,10 +55,11 @@ Clone the repository:
 ### CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 
 ## Build Tailwind CSS:
-### npm run build
+   npm run build
 
 ## Run the application:
-### npm start
+   npm start
+   
 - The application will be running at http://localhost:3000.
 
 ## Usage
