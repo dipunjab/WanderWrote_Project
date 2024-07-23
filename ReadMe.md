@@ -2,6 +2,17 @@ Wonerworte
 
 Wonerworte is a web application that allows users to log in and share their words of wonder, travel experiences, stories, and more.
 
+Table of Contents
+Features
+Tech Stack
+Demo Video
+Getting Started
+Usage
+Configuration
+Error Handling
+Contributing
+License
+Acknowledgements
 Features
 User Registration and Authentication
 Post creation and sharing
@@ -24,8 +35,6 @@ Mongoose (MongoDB ODM)
 Other Services
 Cloudinary (for profile picture uploads)
 Multer (for handling file uploads)
-Demo Video
-Watch the demo video to see Wonerworte in action:
 
 
 
@@ -39,7 +48,7 @@ Installation
 Clone the repository:
 bash
 Copy code
-git clone https://github.com/yourusername/wonerworte.git
+git clone https://github.com/dipunjab/WanderWrote_Project
 cd wonerworte
 Install dependencies:
 bash
@@ -82,6 +91,9 @@ Once registered and logged in, users can create new posts, share their travel ex
 Commenting
 Users can comment on posts. The comments display the user's full name and the comment content.
 
+Configuration
+Configuration is managed through environment variables. Ensure you have a .env file with the required variables as mentioned in the installation steps.
+
 Error Handling
 Frontend
 Displays specific error messages for individual fields (e.g., 'All fields are required' or 'Password must be at least 8 characters long').
@@ -91,6 +103,6 @@ Throws specific errors with appropriate status codes for each validation issue.
 Contributing
 Contributions are welcome! Please fork the repository and submit a pull request for review.
 
-License
 
-
+Acknowledgements
+Thanks to Cloudinary for providing media upload capabilities.
