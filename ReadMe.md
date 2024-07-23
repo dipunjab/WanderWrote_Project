@@ -3,103 +3,98 @@ Wonerworte
 Wonerworte is a web application that allows users to log in and share their words of wonder, travel experiences, stories, and more.
 
 Table of Contents
-Features
-Tech Stack
-Demo Video
-Getting Started
-Usage
-Configuration
-Error Handling
-Contributing
-License
-Acknowledgements
-Features
-User Registration and Authentication
-Post creation and sharing
-Commenting on posts
-User profiles
-Dynamic content updates
-Profile picture upload via Cloudinary
-Tech Stack
-Frontend
-Pug
-HTML
-CSS
-JavaScript
-Tailwind CSS
-Backend
-Node.js
-Express
-JWT (JSON Web Tokens) for authentication
-Mongoose (MongoDB ODM)
-Other Services
-Cloudinary (for profile picture uploads)
-Multer (for handling file uploads)
+
+.Features
+.Tech Stack
+.Demo Video
+.Getting Started
+.Usage
+.Configuration
+.Error Handling
+.Contributing
+.License
+.Acknowledgements
+.Features
+.User Registration and Authentication
+.Post creation and sharing
+.Commenting on posts
+.User profiles
+.Profile picture upload via Cloudinary
+
+*Tech Stack
+
+-Frontend
+.Pug
+.HTML
+.CSS
+.JavaScript
+.Tailwind CSS
+
+-Backend
+.Node.js
+.Express
+.JWT (JSON Web Tokens) for authentication
+.Mongoose (MongoDB ODM)
+
+-Other Services
+.Cloudinary (for profile picture uploads)
+.Multer (for handling file uploads)
 
 
 
-Getting Started
-Prerequisites
-Ensure you have the following installed on your machine:
+*Getting Started
+-Prerequisites
+    Ensure you have the following installed on your machine:
 
-Node.js
-MongoDB
-Installation
+.Node.js
+.MongoDB
+
 Clone the repository:
-bash
-Copy code
+
 git clone https://github.com/dipunjab/WanderWrote_Project
 cd wonerworte
-Install dependencies:
-bash
-Copy code
-npm install
-Set up environment variables:
-Create a .env file in the root directory and add the following variables:
 
-env
-Copy code
-PORT=3000
-MONGODB_URL=your_mongodb_connection_string
-CORS_ORIGIN=*
+*Install dependencies:
+-npm install
 
-ACCESS_TOKEN_SECRET=your_access_token_secret
-ACCESS_TOKEN_EXPIRY=your_access_token_expiry
-REFRESH_TOKEN_SECRET=your_refresh_token_secret
-REFRESH_TOKEN_EXPIRY=your_refresh_token_expiry
+*Set up environment variables:
+    Create a .env file in the root directory and add the following variables:
 
-CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-CLOUDINARY_API_KEY=your_cloudinary_api_key
-CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-Build Tailwind CSS:
-bash
-Copy code
-npm run build
-Run the application:
-bash
-Copy code
-npm start
+.env
+
+.PORT=3000
+.MONGODB_URL=your_mongodb_connection_string
+.CORS_ORIGIN=*
+
+.ACCESS_TOKEN_SECRET=your_access_token_secret
+.ACCESS_TOKEN_EXPIRY=your_access_token_expiry
+.REFRESH_TOKEN_SECRET=your_refresh_token_secret
+.REFRESH_TOKEN_EXPIRY=your_refresh_token_expiry
+
+.CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+.CLOUDINARY_API_KEY=your_cloudinary_api_key
+.CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+*Build Tailwind CSS:
+-npm run build
+
+*Run the application:
+-npm start
 The application will be running at http://localhost:3000.
 
-Usage
-Registration
-To register a new user, fill in all the required fields and upload a profile picture. Ensure that the email and username are unique, and the password meets the minimum length requirement.
+*Usage
+-Registration
+    To register a new user, fill in all the required fields and upload a profile picture. Ensure that the email and username are unique, and the password meets the minimum length requirement.
 
-Posting
-Once registered and logged in, users can create new posts, share their travel experiences, and stories.
+-Posting
+    Once registered and logged in, users can create new posts, share their travel experiences, and stories.
 
-Commenting
-Users can comment on posts. The comments display the user's full name and the comment content.
+-Commenting
+    Users can comment on posts. The comments display the user's full name and the comment content.
 
-Configuration
-Configuration is managed through environment variables. Ensure you have a .env file with the required variables as mentioned in the installation steps.
+-Configuration
+    Configuration is managed through environment variables. Ensure you have a .env file with the required variables as mentioned in the installation steps.
 
-Error Handling
-Frontend
-Displays specific error messages for individual fields (e.g., 'All fields are required' or 'Password must be at least 8 characters long').
-Backend
-Handles validation for user registration, including checks for all fields being filled, unique email or username, and a required profile picture.
-Throws specific errors with appropriate status codes for each validation issue.
 Contributing
 Contributions are welcome! Please fork the repository and submit a pull request for review.
 
