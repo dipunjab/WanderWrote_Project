@@ -1,8 +1,8 @@
-Wonerworte
+#Wonerworte
 
 Wonerworte is a web application that allows users to log in and share their words of wonder, travel experiences, stories, and more.
 
-Table of Contents
+##Table of Contents
 
 .Features
 .Tech Stack
@@ -21,29 +21,29 @@ Table of Contents
 .User profiles
 .Profile picture upload via Cloudinary
 
-*Tech Stack
+##Tech Stack
 
--Frontend
+###Frontend
 .Pug
 .HTML
 .CSS
 .JavaScript
 .Tailwind CSS
 
--Backend
+###Backend
 .Node.js
 .Express
 .JWT (JSON Web Tokens) for authentication
 .Mongoose (MongoDB ODM)
 
--Other Services
+###Other Services
 .Cloudinary (for profile picture uploads)
 .Multer (for handling file uploads)
 
 
 
-*Getting Started
--Prerequisites
+##Getting Started
+###Prerequisites
     Ensure you have the following installed on your machine:
 
 .Node.js
@@ -54,10 +54,10 @@ Clone the repository:
 git clone https://github.com/dipunjab/WanderWrote_Project
 cd wonerworte
 
-*Install dependencies:
+##Install dependencies:
 -npm install
 
-*Set up environment variables:
+###Set up environment variables:
     Create a .env file in the root directory and add the following variables:
 
 .env
@@ -75,29 +75,29 @@ cd wonerworte
 .CLOUDINARY_API_KEY=your_cloudinary_api_key
 .CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 
-*Build Tailwind CSS:
+##Build Tailwind CSS:
 -npm run build
 
-*Run the application:
+##Run the application:
 -npm start
 The application will be running at http://localhost:3000.
 
-*Usage
--Registration
+##Usage
+###Registration
     To register a new user, fill in all the required fields and upload a profile picture. Ensure that the email and username are unique, and the password meets the minimum length requirement.
 
--Posting
+###Posting
     Once registered and logged in, users can create new posts, share their travel experiences, and stories.
 
--Commenting
+###Commenting
     Users can comment on posts. The comments display the user's full name and the comment content.
 
--Configuration
+###Configuration
     Configuration is managed through environment variables. Ensure you have a .env file with the required variables as mentioned in the installation steps.
 
-Contributing
+##Contributing
 Contributions are welcome! Please fork the repository and submit a pull request for review.
 
 
-Acknowledgements
+##Acknowledgements
 Thanks to Cloudinary for providing media upload capabilities.
