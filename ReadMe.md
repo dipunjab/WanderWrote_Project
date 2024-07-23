@@ -2,33 +2,14 @@
 
 Wonerworte is a web application that allows users to log in and share their words of wonder, travel experiences, stories, and more.
 
-## Table of Contents
-
-.Features
-.Tech Stack
-.Demo Video
-.Getting Started
-.Usage
-.Configuration
-.Error Handling
-.Contributing
-.License
-.Acknowledgements
-.Features
-.User Registration and Authentication
-.Post creation and sharing
-.Commenting on posts
-.User profiles
-.Profile picture upload via Cloudinary
-
 ## Tech Stack
 
 ### Frontend
-.Pug
-.HTML
-.CSS
-.JavaScript
-.Tailwind CSS
+- Pug
+- HTML
+- CSS
+- JavaScript
+- Tailwind CSS
 
 ### Backend
 .Node.js
@@ -43,9 +24,9 @@ Wonerworte is a web application that allows users to log in and share their word
 
 
 ## Getting Started
-### Prerequisites
+  ##Prerequisites
     Ensure you have the following installed on your machine:
-
+    
 .Node.js
 .MongoDB
 
