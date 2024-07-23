@@ -30,35 +30,35 @@ Wonerworte is a web application that allows users to log in and share their word
 
 Clone the repository:
 
-###git clone https://github.com/dipunjab/WanderWrote_Project
-###cd wonerworte
+### git clone https://github.com/dipunjab/WanderWrote_Project
+### cd wonerworte
 
 ## Install dependencies:
--###npm install
+-### npm install
 
-### Set up environment variables:
+- Set up environment variables:
     Create a .env file in the root directory and add the following variables:
 
 .env
 
-###PORT=3000
-###MONGODB_URL=your_mongodb_connection_string
-###CORS_ORIGIN=*
+### PORT=3000
+### MONGODB_URL=your_mongodb_connection_string
+### CORS_ORIGIN=*
 
-###ACCESS_TOKEN_SECRET=your_access_token_secret
-###ACCESS_TOKEN_EXPIRY=your_access_token_expiry
-###REFRESH_TOKEN_SECRET=your_refresh_token_secret
-###REFRESH_TOKEN_EXPIRY=your_refresh_token_expiry
+### ACCESS_TOKEN_SECRET=your_access_token_secret
+### ACCESS_TOKEN_EXPIRY=your_access_token_expiry
+### REFRESH_TOKEN_SECRET=your_refresh_token_secret
+### REFRESH_TOKEN_EXPIRY=your_refresh_token_expiry
 
-###CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-###CLOUDINARY_API_KEY=your_cloudinary_api_key
-###CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+### CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+### CLOUDINARY_API_KEY=your_cloudinary_api_key
+### CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 
 ## Build Tailwind CSS:
-###npm run build
+### npm run build
 
 ## Run the application:
-###npm start
+### npm start
 - The application will be running at http://localhost:3000.
 
 ## Usage
