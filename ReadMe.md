@@ -15,7 +15,7 @@ Wonerworte is a web application that allows users to log in and share their word
 - Node.js
 - Express
 - JWT (JSON Web Tokens) for authentication
-- Mongoose (MongoDB ODM)
+- Mongoose
 
 ## Other Services
 - Cloudinary (for profile picture uploads)
