@@ -30,7 +30,9 @@ Wonerworte is a web application that allows users to log in and share their word
 
 Clone the repository:
 
-### git clone https://github.com/dipunjab/WanderWrote_Project
+### git clone 
+https://github.com/dipunjab/WanderWrote_Project.git
+
 ### cd wonerworte
 
 ## Install dependencies:
